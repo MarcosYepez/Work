@@ -1,1 +1,38 @@
-Marcos Fibonacci
+using System;
+
+namespace FIBO_1
+{
+    class Program
+    {
+        private const string Value = "La Version Fibonacci del numero [0] es: ";
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Inserte el numero toamando en cuenta la cantidad de la sucesion: ");
+            int Cantidad = Convert.ToInt32(Console.ReadLine());
+
+            double[] Fibonacci = new double[2];
+            Fibonacci[0] = 1;
+            Fibonacci[1] = 1;
+            int Num = 1;
+            Console.WriteLine("Gracias por insertar su eleccion");
+            Console.WriteLine("....................................");
+            Console.WriteLine("La Version Fibonacci del numero es:");
+
+            //Crear while para poder setear los parametros
+            while (Num <= Cantidad)
+            {
+                Console.WriteLine(Fibonacci[0]);
+                double Temp = Fibonacci[1] + Fibonacci[0];
+                double v = Fibonacci[1];
+                Fibonacci[0] = v;
+                Fibonacci[1] = Temp;
+                
+
+                Num++;
+            }
+            Console.ReadKey();
+            
+        }
+    }
+}
