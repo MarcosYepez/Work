@@ -4,7 +4,7 @@ namespace FIBO_1
 {
     class Program
     {
-        private const string Value = "La Version Fibonacci del numero [0] es: ";
+        //private const string Value = "La Version Fibonacci del numero [0] es: ";
 
         static void Main(string[] args)
         {
