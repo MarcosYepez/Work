@@ -1,0 +1,233 @@
+using System;
+using System.IO;
+using System.Net;
+using System.Runtime.ConstrainedExecution;
+using System.Text;
+
+namespace RegistroDatos
+{
+    class Program
+    {
+        public static Func<string> Contraseña { get; private set; }
+
+        //private static string nombrearchivo;
+        static void Main(string[] args)
+        {
+            //nombrearchivo = args[0];
+            //bool activo = true;
+
+            if (!File.Exists("Informacion.csv"))
+            {
+                using (StreamWriter file = new StreamWriter("Informacion.csv"))
+                {
+                    file.WriteLine("Cedula" + "," + "Nombre" + "," + "Apellido" + "," + "Edad" + "," + "Contraseña");
+                }
+            }
+
+
+            //while (activo)
+            //{
+            string Num;
+            Console.WriteLine("----Registro----");
+            Console.WriteLine("[1] Agregar");
+            Console.WriteLine("[2] Lista");
+            Console.WriteLine("[3] Buscar Cedula");
+            Console.WriteLine("[4] Salir ");
+            Console.WriteLine("[5] Eliminar ");
+            Console.WriteLine("[6] Editar ");
+
+            Console.WriteLine("SELECIONE UN NUMERO");
+            Num = Console.ReadLine();
+            Console.Clear();
+            switch (Num)
+            {
+                case "1":
+                    string Nom, Ape, A1, A2, Cedu;
+                    double Edad, Contra;
+
+                    StreamWriter archivo = File.AppendText("Informacion.csv");
+                    Console.Write("Cedula:");
+                    Cedu = Console.ReadLine();
+                    Console.Write("Nombre:");
+                    Nom = Console.ReadLine();
+                    Console.Write("Apellido:");
+                    Ape = Console.ReadLine();
+                    Console.Write("Edad:");
+                    Edad = Convert.ToDouble(Console.ReadLine());
+                    Console.WriteLine("Contraseña");
+                    _ = Convert.ToDouble(Console.ReadLine());
+
+                    string Pass()
+                    {
+                        ConsoleKeyInfo p;
+                        string xpa = string.Empty;
+                        do
+                        {
+                            p = Console.ReadKey(true);
+                            if (p.Key != ConsoleKey.Backspace && p.Key != ConsoleKey.Enter)
+                            {
+                                xpa += p.KeyChar;
+                                Console.Write("*");
+                            }
+                            else if (p.Key == ConsoleKey.Backspace && xpa.Length > 0)
+                            {
+                                xpa = xpa.Substring(0, (xpa.Length - 1));
+                                Console.Write("\b \b");
+                            }
+                        } while (p.Key != ConsoleKey.Enter);
+
+                        return xpa;
+
+                    }
+                    Console.WriteLine("Quieres guardar?");
+                    Console.WriteLine("SI [S]  ||  No [N]  || Cerrar [C] ");
+                    A1 = Console.ReadLine();
+                    A2 = A1.ToLower();
+                    if (A2 == "s")
+                    {
+                        archivo.WriteLine(Cedu + "," + Nom + "," + Ape + "," + Edad + "," + Contraseña);
+                        archivo.Close();
+                        goto case "1";
+
+                    }
+                    if (A2 == "n")
+                    {
+                        archivo.Close();
+                        goto case "1";
+                    }
+                    if (A2 == "c")
+                    {
+                        archivo.Close();
+                        goto Final;
+
+                    }
+                Final:
+                    Console.WriteLine("Finalizo el programa....");
+                    Console.ReadKey();
+                    Console.Clear();
+                    break;
+
+
+                case "2":
+
+                    TextReader Leer;
+                    Leer = new StreamReader("Informacion.csv");
+                    Console.WriteLine(Leer.ReadToEnd());
+                    Console.ReadKey();
+                    Console.Clear();
+                    Leer.Close();
+                    break;
+
+                case "3":
+                    string cosa;
+                    string reg = "No Existe";
+
+                    Console.WriteLine("escribe la Cedula:");
+                    cosa = Console.ReadLine();
+                    foreach (string line in File.ReadLines("Informacion.csv"))
+                    {
+                        if (line.Contains(cosa))
+                        {
+                            var arr = line.Split(",");
+                            if (arr[0] == cosa)
+                            {
+                                reg = line;
+                            }
+                        }
+                    }
+                    Console.WriteLine(reg);
+                    Console.ReadLine();
+
+                    break;
+
+
+                case "4":
+                    Console.WriteLine("EL PROGRAMA HA FINALIZADO....");
+                    Console.ReadKey();
+                    break;
+
+
+                case "5":
+                    string Edit;
+                    string regu = "No Existe";
+                    Console.Write("Ingrese la Cedula para editar: ");
+                    Edit = Console.ReadLine();
+                    foreach (string line in File.ReadLines("Informacion.csv"))
+                    {
+                        if (line.Contains(Edit))
+                        {
+                            var arr = line.Split(",");
+                            if (arr[0] == Edit)
+                            {
+                                regu = line;
+
+                            }
+                        }
+                    }
+                    Console.WriteLine(regu);
+                    foreach (string file in File.ReadLines("Informacion.csv"))
+                    {
+                        if (Edit == regu)
+                        {
+                            File.Delete(regu);
+                        }
+
+                    }
+
+                    Console.ReadKey();
+
+
+                    break;
+
+                case "6":
+                    string coso;
+                    string regi = "No Existe";
+
+                    Console.WriteLine("Escriba la Cedula que quieres borrar:");
+                    coso = Console.ReadLine();
+                    foreach (string line in File.ReadLines("Informacion.csv"))
+                    {
+                        if (line.Contains(coso))
+                        {
+                            var arr = line.Split(",");
+                            if (arr[0] == coso)
+                            {
+                                regi = line;
+                            }
+                        }
+                    }
+                    Console.WriteLine(regi);
+
+                    string Si, No;
+                    Console.Write("Continuar: SI[S] o NO [N] :");
+                    Si = Console.ReadLine();
+                    No = Si.ToLower();
+                    if (No == "s")
+                    {
+
+                        string busqueda = coso;
+
+                        string[] values = File.ReadAllText("Informacion.csv").Split(new char[] { '\n' });
+                        StringBuilder ObjStringBuilder = new StringBuilder();
+
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            if (values[i].Split(',')[0] == busqueda)
+                                continue;
+                            ObjStringBuilder.AppendLine(values[i].TrimEnd('\r'));
+                        }
+                        File.WriteAllText("Informacion.csv", ObjStringBuilder.ToString().TrimEnd(new char[] { '\n', '\r' }), Encoding.UTF8);
+                    }
+                    if (No == "n")
+                    {
+                        Console.WriteLine("No se ha borrado nada, intente otra vez.....");
+                    }
+
+                    break;
+
+            }
+
+
+        }
+    }
+}
