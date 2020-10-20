@@ -1,0 +1,178 @@
+using System;
+using System.Globalization;
+
+namespace Programa_v4
+{
+    class Program
+    {
+
+        public static void Main(string[] args)
+        {
+
+            Console.Clear();
+
+            Console.Write("\nDigite su Nombre:");
+            string N = func_nombre();
+            Console.WriteLine("\n\nEl usuario ingresado fue: " + N + "\n-----------------------------------------------------------------------------");
+
+            Console.Write("\n\n\n\nDigite su Apellido: ");
+            string AP = func_nombre();
+            Console.WriteLine("\n\nEl apellido ingresado fue: " + AP + "\n----------------------------------------------------------------------------");
+
+            Console.Write("\n\n\n\nDigite su edad: ");
+            string E = func_edad();
+            Console.WriteLine("\n\nLa edad ingresada fue: " + E + "\n--------------------------------------------------------------------");
+
+            try
+            {
+                NumberFormatInfo hey = new NumberFormatInfo();
+                hey.NumberDecimalDigits = 2;
+                Console.Write("\n\n\n--------------------------------------------------------------\nDigite su cantidad de ahorros: ");
+                decimal AH = decimal.Parse(func_ahorros());
+                Console.WriteLine("");
+                Console.WriteLine(AH.ToString("N", hey));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Console.Write("\n\n\n-----------------------------------------------------------------------------\nDigite una contraseña: ");
+            string vPass = func_password();
+
+            Console.Write("\nConfirmar contraseña: ");
+            string vPassConfirm = func_password();
+
+            if (vPass == vPassConfirm)
+            {
+                Console.WriteLine("\n\nLas contraseñas digitadas si los mismas\n");
+                Console.WriteLine("\n\nPuede continuar\n");
+            }
+            else
+            {
+                Console.WriteLine("\n\nLas contraseñas digitadas son diferentes\n");
+                Console.WriteLine("\n\nFavor de confirmar\n");
+            }
+        }
+
+        static string func_nombre()
+        {
+
+            char[] lista = new char[48];
+            char captura;
+
+            for (int x = 0; ;)
+            {
+                captura = Console.ReadKey(true).KeyChar;
+                if (captura >= 65 && captura <= 90 || captura >= 97 && captura <= 122 || captura >= 48 && captura <= 57)
+                {
+                    lista[x] = captura;
+                    ++x;
+                    Console.Write(captura);
+                }
+                if (captura == 13)
+                {
+                    lista[x] = '\0';
+                    break;
+                }
+                if (captura == 8 && x >= 1)
+                {
+                    Console.Write("\b \b");
+                    --x;
+                }
+            }
+            return new string(lista);
+        }
+
+        static string func_edad()
+        {
+
+            char[] lista = new char[48];
+            char captura;
+
+            for (int x = 0; ;)
+            {
+                captura = Console.ReadKey(true).KeyChar;
+                if (captura >= 48 && captura <= 57)
+                {
+                    lista[x] = captura;
+                    ++x;
+                    Console.Write(captura);
+                }
+                if (captura == 13)
+                {
+                    lista[x] = '\0';
+                    break;
+                }
+                if (captura == 8 && x >= 1)
+                {
+                    Console.Write("\b \b");
+                    --x;
+                }
+            }
+            return new string(lista);
+        }
+
+        static string func_ahorros()
+        {
+
+            char[] lista = new char[48];
+
+            char captura;
+
+            for (int x = 0; ;)
+            {
+
+                captura = Console.ReadKey(true).KeyChar;
+
+                if (captura >= 48 && captura <= 57 || captura == 46)
+                {
+                    lista[x] = captura;
+                    ++x;
+                    Console.Write(captura);
+                }
+                if (captura == 13)
+                {
+                    lista[x] = '\0';
+                    break;
+                }
+                if (captura == 8 && x >= 1)
+                {
+                    Console.Write("\b \b");
+                    --x;
+                }
+            }
+            return new string(lista);
+        }
+
+
+        static string func_password()
+        {
+
+            char[] lista = new char[48];
+            char captura;
+
+            for (int x = 0; ;)
+            {
+                captura = Console.ReadKey(true).KeyChar;
+                if (captura >= 65 && captura <= 90 || captura >= 97 && captura <= 122 || captura >= 48 && captura <= 57 || captura >= 42 && captura <= 46)
+                {
+                    lista[x] = captura;
+                    ++x;
+                    Console.Write("*");
+                }
+                if (captura == 13)
+                {
+                    lista[x] = '\0';
+                    break;
+                }
+                if (captura == 8 && x >= 1)
+                {
+                    Console.Write("\b \b");
+                    --x;
+                }
+            }
+            return new string(lista);
+        }
+    }
+}
